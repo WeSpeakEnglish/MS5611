@@ -371,106 +371,6 @@
           <state />
           <state />
           <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
-          <state />
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1163,6 +1063,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\main.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\MS5611.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\rtc.c</name>

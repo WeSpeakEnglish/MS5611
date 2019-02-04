@@ -1205,6 +1205,9 @@
                 <name>$PROJ_DIR$\..\Src\main.c</name>
             </file>
             <file>
+                <name>$PROJ_DIR$\..\Src\MS5611.c</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\Src\rtc.c</name>
             </file>
             <file>
@@ -1215,9 +1218,6 @@
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Src\stm32f1xx_it.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Src\tim.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\Src\usart.c</name>

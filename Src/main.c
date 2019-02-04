@@ -66,8 +66,8 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN 0 */
 //////////////////TEST
-uint8_t SPI2_Buffer_Tx[32];
-uint8_t SPI1_Buffer_Rx[32];
+uint8_t SPI2_Buffer_Tx[128];
+uint8_t SPI1_Buffer_Rx[128];
 
 /* USER CODE END 0 */
 
@@ -109,10 +109,16 @@ int main(void)
   
 int i;
 for(i=1;i<65; i++)SPI2_Buffer_Tx[i-1] = i;
+HAL_Delay(500);
 
-HAL_SPI_Receive_DMA(&hspi1, SPI1_Buffer_Rx, 32);
+HAL_SPI_Transmit_DMA(&hspi2, SPI2_Buffer_Tx, 30);
+HAL_SPI_Receive_DMA(&hspi1, SPI1_Buffer_Rx, 30);
+HAL_Delay(5000);
 HAL_SPI_Transmit_DMA(&hspi2, SPI2_Buffer_Tx, 32);
+HAL_SPI_Receive_DMA(&hspi1, SPI1_Buffer_Rx, 32);
+HAL_Delay(500);
 
+//MS5611_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
