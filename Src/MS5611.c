@@ -14,7 +14,7 @@
 #define SS1_SetLow   HAL_GPIO_WritePin(MS5611_CS_PORT, MS5611_CS_PIN, GPIO_PIN_RESET)
 #define SS1_SetHigh  HAL_GPIO_WritePin(MS5611_CS_PORT, MS5611_CS_PIN, GPIO_PIN_SET)
 
-#define spi_send(X) {b = X; HAL_SPI_Transmit_DMA(&hspi2, &b, 1);}
+#define spi_send(X) {b = X; HAL_SPI_Transmit(&hspi2, &b, 1, 1000);}
 
 
 uint8_t SPI2_Buffer_Rx[32];
@@ -34,15 +34,13 @@ uint16_t ms5611_prom(uint8_t coef_num)
   
   SS1_SetLow;                                   //       pull       CSB       low       
   spi_send(CMD_PROM_RD+coef_num*2);       
-  HAL_Delay(100);
+
   // send PROM READ command 
   //  spi_send(0x00);                          // send 0 to read the MSB 
   //  ret=SPI1BUF;       
-  HAL_SPI_TransmitReceive_DMA(&hspi2, &CMD, &ret, 1);
-  HAL_Delay(100);
+  HAL_SPI_TransmitReceive(&hspi2, &CMD, &ret, 1, 1000);
   rC=256*ret;  
-  HAL_SPI_TransmitReceive_DMA(&hspi2, &CMD, &ret, 1);
-  HAL_Delay(100);
+  HAL_SPI_TransmitReceive(&hspi2, &CMD, &ret, 1, 1000);
   //   spi_send(0x00);                          // send 0 to read the LSB 
   //    ret=SPI1BUF;       
   rC=rC+ret;       
@@ -56,8 +54,8 @@ void MS5611_init(void)
   HAL_GPIO_WritePin(MS5611_CS_PORT, MS5611_CS_PIN, GPIO_PIN_RESET);
   HAL_Delay(1);
   b = CMD_RESET;
-  HAL_SPI_Transmit_DMA(&hspi2, &b, 1);
-  HAL_Delay(300);
+  HAL_SPI_Transmit(&hspi2, &b, 1, 1000);
+
   HAL_GPIO_WritePin(MS5611_CS_PORT, MS5611_CS_PIN, GPIO_PIN_SET);
   return;
   
@@ -71,7 +69,7 @@ uint32_t MS5611_cmd_adc(uint8_t cmd)
   
   SS1_SetLow;                                   // pull CSB low       
   spi_send(CMD_ADC_CONV+cmd);                     // send conversion command    
-  HAL_Delay(100);
+ 
   
   switch (cmd & 0x0f)                             // wait necessary conversion time 
   {       
@@ -82,27 +80,23 @@ uint32_t MS5611_cmd_adc(uint8_t cmd)
   case CMD_ADC_4096: HAL_Delay(10);  break; 
   }       
   SS1_SetHigh;                                // pull CSB high to finish the conversion 
+  HAL_Delay(10);
   SS1_SetLow;                                // pull CSB low to start new command 
   spi_send(CMD_ADC_READ);                  // send ADC read command 
-  HAL_Delay(100);
+
   // spi_send(0x00);                          // send 0 to read 1st byte (MSB) 
   //  ret=SPI1BUF;       
-  HAL_SPI_TransmitReceive_DMA(&hspi2, &CMD, &ret, 1);
-  HAL_Delay(100);
-  
+  HAL_SPI_TransmitReceive(&hspi2, &CMD, &ret, 1, 1000);
   temp=65536*ret; 
   
   // spi_send(0x00);                          // send 0 to read 2nd byte 
   // ret=SPI1BUF;   
-  HAL_SPI_TransmitReceive_DMA(&hspi2, &CMD, &ret, 1);
-  HAL_Delay(100);
-  
+  HAL_SPI_TransmitReceive(&hspi2, &CMD, &ret, 1, 1000);
   temp=temp+256*ret; 
   
   // spi_send(0x00);                          // send 0 to read 3rd byte (LSB) 
   //  ret=SPI1BUF;       
-  HAL_SPI_TransmitReceive_DMA(&hspi2, &CMD, &ret, 1);
-  HAL_Delay(100);
+  HAL_SPI_TransmitReceive(&hspi2, &CMD, &ret, 1, 1000);
   
   temp=temp+ret;              
   SS1_SetHigh;                                // pull CSB high to finish the read command 
@@ -141,27 +135,25 @@ uint8_t MS5611_crc4(uint16_t n_prom[])
 
 uint16_t  MS5611_cmd_prom(uint8_t coef_num) 
 { 
-  static uint8_t ret[2]; 
+ static uint8_t ret;
+  static unsigned int rC=0; 
   static uint8_t CMD = 0x00;
-  static unsigned int rC = 0; 
-  SS1_SetLow;                                   //       pull       CSB       low       
-  spi_send(CMD_PROM_RD+coef_num*2); 
-  HAL_Delay(100);
+  
+  SS1_SetLow;   
+  HAL_Delay(100);//       pull       CSB       low       
+  spi_send(CMD_PROM_RD+coef_num*2);       
+ // HAL_Delay(100);
   // send PROM READ command 
   //  spi_send(0x00);                          // send 0 to read the MSB 
-  HAL_SPI_TransmitReceive_DMA(&hspi2, &CMD, &ret[1], 1);
-  //   HAL_SPI_Receive_DMA(&hspi2, ret, 2);
-  //  ret=SPI1BUF; 
-  HAL_Delay(100);
-  HAL_SPI_TransmitReceive_DMA(&hspi2, &CMD, &ret[0], 1);
-  HAL_Delay(100);
-  rC=256*ret[1]+ret[0];       
+  //  ret=SPI1BUF;       
+  HAL_SPI_TransmitReceive(&hspi2, &CMD, &ret, 1, 1000);
+  rC=256*ret;  
+  HAL_SPI_TransmitReceive(&hspi2, &CMD, &ret, 1, 1000);
   //   spi_send(0x00);                          // send 0 to read the LSB 
-  //  ret=SPI1BUF;   
-  //      HAL_SPI_Receive_DMA(&hspi2, &ret, 1);
-  //      rC=rC+ret;       
+  //    ret=SPI1BUF;       
+  rC=rC+ret;       
   SS1_SetHigh;                                   //       pull       CSB       high       
-  return       rC;       
+  return       rC; 
 }
 
 void ms5611_calculate(int32_t *pressure, int32_t *temperature)
