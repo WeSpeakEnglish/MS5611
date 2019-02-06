@@ -81,7 +81,9 @@ uint32_t MS5611_cmd_adc(uint8_t cmd)
   }       
   SS1_SetHigh;                                // pull CSB high to finish the conversion 
   HAL_Delay(10);
-  SS1_SetLow;                                // pull CSB low to start new command 
+  SS1_SetLow;    
+  HAL_Delay(100);// pull CSB low to start new command 
+  
   spi_send(CMD_ADC_READ);                  // send ADC read command 
 
   // spi_send(0x00);                          // send 0 to read 1st byte (MSB) 
@@ -140,12 +142,14 @@ uint16_t  MS5611_cmd_prom(uint8_t coef_num)
   static uint8_t CMD = 0x00;
   
   SS1_SetLow;   
-  HAL_Delay(100);//       pull       CSB       low       
-  spi_send(CMD_PROM_RD+coef_num*2);       
+  HAL_Delay(100);//       pull       CSB       low  
+  CMD = CMD_PROM_RD+coef_num*2;
+  HAL_SPI_TransmitReceive(&hspi2, &CMD, &ret, 1, 1000);     
  // HAL_Delay(100);
   // send PROM READ command 
   //  spi_send(0x00);                          // send 0 to read the MSB 
-  //  ret=SPI1BUF;       
+  //  ret=SPI1BUF;  
+  CMD = 0x00;
   HAL_SPI_TransmitReceive(&hspi2, &CMD, &ret, 1, 1000);
   rC=256*ret;  
   HAL_SPI_TransmitReceive(&hspi2, &CMD, &ret, 1, 1000);
