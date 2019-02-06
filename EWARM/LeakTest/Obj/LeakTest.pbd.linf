@@ -5,6 +5,10 @@ C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\main.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\MS5611.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\rtc.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\spi.pbi
+C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_msp.pbi
+C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_it.pbi
+C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\usart.pbi
+C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\system_stm32f1xx.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_cortex.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_dma.pbi
@@ -12,7 +16,6 @@ C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_flash.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_flash_ex.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_gpio.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_gpio_ex.pbi
-C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_msp.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_pwr.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_rcc.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_rcc_ex.pbi
@@ -21,11 +24,8 @@ C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_spi_ex.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_tim.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_tim_ex.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_hal_uart.pbi
-C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_it.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_ll_exti.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_ll_gpio.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_ll_rcc.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_ll_rtc.pbi
 C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\stm32f1xx_ll_utils.pbi
-C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\system_stm32f1xx.pbi
-C:\PROJECTS\LeakageTester\LeakTest\EWARM\LeakTest\Obj\usart.pbi
