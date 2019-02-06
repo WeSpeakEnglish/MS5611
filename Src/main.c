@@ -39,7 +39,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f1xx_hal.h"
-#include "dma.h"
 #include "rtc.h"
 #include "spi.h"
 #include "usart.h"
@@ -108,7 +107,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_SPI2_Init();
   MX_USART1_UART_Init();
   MX_RTC_Init();
