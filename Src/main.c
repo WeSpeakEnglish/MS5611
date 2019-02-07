@@ -164,19 +164,19 @@ int main(void)
     T=(2000+(dT*C[6])/pow(2,23))/100;       
     P=(((D1*SENS)/pow(2,21)-OFF)/pow(2,15))/100; 
     
-
-    TX_UART_buffer[0] = (uint8_t)((int)(T)%100);
-    TX_UART_buffer[1] = (uint8_t)((int)(T*100)%100);    
-    TX_UART_buffer[2] = (uint8_t)(((int)(P/10.0)));
-    TX_UART_buffer[3] = (uint8_t)(((int)(P*10.0))%100);
-    TX_UART_buffer[4] = (uint8_t)(((int)(P*1000))%100);
+    TX_UART_buffer[0] = 0x40;
+    TX_UART_buffer[1] = (uint8_t)((int)(T)%100);
+    TX_UART_buffer[2] = (uint8_t)((int)(T*100)%100);    
+    TX_UART_buffer[3] = (uint8_t)(((int)(P/10.0)));
+    TX_UART_buffer[4] = (uint8_t)(((int)(P*10.0))%100);
+    TX_UART_buffer[5] = (uint8_t)(((int)(P*1000))%100);
     
     HAL_UART_Transmit_DMA(&huart1, TX_UART_buffer, UART_SIZE_TX);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
     HAL_StatusTypeDef HAL_UART_Transmit_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
-HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+    HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
   }
   /* USER CODE END 3 */
 
