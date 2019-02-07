@@ -10,7 +10,6 @@
 
 <filestoremove>
     <file>
-    <name>..\Src\dma.c</name>
     </file>
 </filestoremove>
 
@@ -155,6 +154,10 @@
 
                                 <file>
                                  <name>..\Src\gpio.c</name>
+                                </file>
+
+                                <file>
+                                 <name>..\Src\dma.c</name>
                                 </file>
 
                                 <file>

@@ -39,6 +39,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f1xx_hal.h"
+#include "dma.h"
 #include "rtc.h"
 #include "spi.h"
 #include "usart.h"
@@ -52,6 +53,10 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+
+#define UART_SIZE_TX 32
+#define UART_SIZE_RX 32
+
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE END PV */
@@ -76,12 +81,16 @@ uint8_t SPI1_Buffer_Rx[128];
   *
   * @retval None
   */
+
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
   static  uint32_t D1;          // ADC value of the pressure conversion 
   static    uint32_t D2;          // ADC value of the temperature conversion  
   static   uint16_t C[8];         // calibration coefficients 
+  static uint8_t RX_UART_buffer[UART_SIZE_RX];
+  static uint8_t TX_UART_buffer[UART_SIZE_TX];
   static   double P;                  // compensated pressure value 
   static  double T;                  // compensated temperature value 
   static  double dT;                 // difference between actual and measured temperature 
@@ -107,6 +116,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_SPI2_Init();
   MX_USART1_UART_Init();
   MX_RTC_Init();
@@ -140,6 +150,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  HAL_UART_Receive_DMA(&huart1, RX_UART_buffer, UART_SIZE_RX);
   while (1)
   {
     D1 = MS5611_cmd_adc(CMD_ADC_D1+CMD_ADC_4096);     // read uncompensated pressure 
@@ -152,10 +163,18 @@ int main(void)
     
     T=(2000+(dT*C[6])/pow(2,23))/100;       
     P=(((D1*SENS)/pow(2,21)-OFF)/pow(2,15))/100; 
+    
+    TX_UART_buffer[0] = (uint8_t)(T*100)%100;
+    TX_UART_buffer[1] = (uint8_t)(T)%100;
+    TX_UART_buffer[2] = (uint8_t)(P/10)%100;
+    TX_UART_buffer[3] = (uint8_t)(T)%100;
+    
+    HAL_UART_Transmit_DMA(&huart1, TX_UART_buffer, UART_SIZE_TX);
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-    
+    HAL_StatusTypeDef HAL_UART_Transmit_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+HAL_StatusTypeDef HAL_UART_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
   }
   /* USER CODE END 3 */
 

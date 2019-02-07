@@ -396,6 +396,21 @@
           <state />
           <state />
           <state />
+          <state />
+          <state />
+          <state />
+          <state />
+          <state />
+          <state />
+          <state />
+          <state />
+          <state />
+          <state />
+          <state />
+          <state />
+          <state />
+          <state />
+          <state />
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1103,6 +1118,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\usart.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../Src/dma.c</name>
       </file>
     </group>
   </group>
