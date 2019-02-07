@@ -22,7 +22,7 @@ uint8_t SPI2_Buffer_Rx[32];
 uint32_t ms5611_ut;  // static result of temperature measurement
 uint32_t ms5611_up;  // static result of pressure measurement
 uint16_t ms5611_c[PROM_NB];  // on-chip ROM
-static uint8_t ms5611_osr = CMD_ADC_4096;
+
 uint8_t b;
 
 
