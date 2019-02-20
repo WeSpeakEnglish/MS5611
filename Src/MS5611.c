@@ -11,8 +11,11 @@
 
 
 
-#define SS1_SetLow   HAL_GPIO_WritePin(MS5611_CS_PORT, MS5611_CS_PIN, GPIO_PIN_RESET)
-#define SS1_SetHigh  HAL_GPIO_WritePin(MS5611_CS_PORT, MS5611_CS_PIN, GPIO_PIN_SET)
+#define SS1_SetLow   HAL_GPIO_WritePin(MS5611_CS1_PORT, MS5611_CS1_PIN, GPIO_PIN_RESET)
+#define SS1_SetHigh  HAL_GPIO_WritePin(MS5611_CS1_PORT, MS5611_CS1_PIN, GPIO_PIN_SET)
+
+#define SS2_SetLow   HAL_GPIO_WritePin(MS5611_CS2_PORT, MS5611_CS2_PIN, GPIO_PIN_RESET)
+#define SS2_SetHigh  HAL_GPIO_WritePin(MS5611_CS2_PORT, MS5611_CS2_PIN, GPIO_PIN_SET)
 
 #define spi_send(X) {b = X; HAL_SPI_Transmit(&hspi2, &b, 1, 1000);}
 
@@ -26,48 +29,41 @@ uint16_t ms5611_c[PROM_NB];  // on-chip ROM
 uint8_t b;
 
 
-uint16_t ms5611_prom(uint8_t coef_num)
-{
-  static uint8_t ret;
-  static unsigned int rC=0; 
-  static uint8_t CMD = 0x00;
-  
-  SS1_SetLow;                                   //       pull       CSB       low       
-  spi_send(CMD_PROM_RD+coef_num*2);       
 
-  // send PROM READ command 
-  //  spi_send(0x00);                          // send 0 to read the MSB 
-  //  ret=SPI1BUF;       
-  HAL_SPI_TransmitReceive(&hspi2, &CMD, &ret, 1, 1000);
-  rC=256*ret;  
-  HAL_SPI_TransmitReceive(&hspi2, &CMD, &ret, 1, 1000);
-  //   spi_send(0x00);                          // send 0 to read the LSB 
-  //    ret=SPI1BUF;       
-  rC=rC+ret;       
-  SS1_SetHigh;                                   //       pull       CSB       high       
-  return       rC; 
-}
-
-void MS5611_init(void)
+void MS5611_init(uint8_t SensNumb) //init the sensor - first number is 1
 {
-  
-  HAL_GPIO_WritePin(MS5611_CS_PORT, MS5611_CS_PIN, GPIO_PIN_RESET);
+MS5611_SS_Set(SensNumb,0);
+
   HAL_Delay(1);
   b = CMD_RESET;
   HAL_SPI_Transmit(&hspi2, &b, 1, 1000);
 
-  HAL_GPIO_WritePin(MS5611_CS_PORT, MS5611_CS_PIN, GPIO_PIN_SET);
-  return;
-  
+   MS5611_SS_Set(SensNumb,1);
+   HAL_Delay(10);
 }
 
-uint32_t MS5611_cmd_adc(uint8_t cmd) 
+void MS5611_Calculate(double * T, double * P, uint16_t * C, uint32_t D1, uint32_t D2){
+    static  double dT;                 // difference between actual and measured temperature 
+    static  double OFF;                // offset at actual temperature 
+    static  double SENS;                // sensitivity at actual temperature
+
+    dT=D2-C[5]*pow(2,8);       
+    OFF=C[2]*pow(2,16)+dT*C[4]/pow(2,7);                                   
+    SENS=C[1]*pow(2,15)+dT*C[3]/pow(2,8);
+    
+    *T = (2000+(dT*C[6])/pow(2,23))/100;       
+    *P = (((D1*SENS)/pow(2,21)-OFF)/pow(2,15))/100; 
+}
+
+
+
+uint32_t MS5611_cmd_adc(uint8_t SensNumb, uint8_t cmd) 
 { 
   uint8_t ret; 
   static uint32_t temp=0; 
   static uint8_t CMD = 0x00;
   
-  SS1_SetLow;                                   // pull CSB low       
+  MS5611_SS_Set(SensNumb,0);                                 // pull CSB low       
   spi_send(CMD_ADC_CONV+cmd);                     // send conversion command    
  
   
@@ -79,9 +75,9 @@ uint32_t MS5611_cmd_adc(uint8_t cmd)
   case CMD_ADC_2048: HAL_Delay(6);   break; 
   case CMD_ADC_4096: HAL_Delay(10);  break; 
   }       
-  SS1_SetHigh;                                // pull CSB high to finish the conversion 
+  MS5611_SS_Set(SensNumb,1);                              // pull CSB high to finish the conversion 
   HAL_Delay(10);
-  SS1_SetLow;    
+  MS5611_SS_Set(SensNumb,0);   
   HAL_Delay(100);// pull CSB low to start new command 
   
   spi_send(CMD_ADC_READ);                  // send ADC read command 
@@ -101,7 +97,7 @@ uint32_t MS5611_cmd_adc(uint8_t cmd)
   HAL_SPI_TransmitReceive(&hspi2, &CMD, &ret, 1, 1000);
   
   temp=temp+ret;              
-  SS1_SetHigh;                                // pull CSB high to finish the read command 
+  MS5611_SS_Set(SensNumb,1);                               // pull CSB high to finish the read command 
   return       temp;       
 }
 
@@ -135,13 +131,14 @@ uint8_t MS5611_crc4(uint16_t n_prom[])
   return (n_rem ^ 0x00);
 } 
 
-uint16_t  MS5611_cmd_prom(uint8_t coef_num) 
+uint16_t  MS5611_cmd_prom(uint8_t SensNumb,uint8_t coef_num) 
 { 
  static uint8_t ret;
   static unsigned int rC=0; 
   static uint8_t CMD = 0x00;
   
-  SS1_SetLow;   
+  MS5611_SS_Set(SensNumb,0);
+  
   HAL_Delay(100);//       pull       CSB       low  
   CMD = CMD_PROM_RD+coef_num*2;
   HAL_SPI_TransmitReceive(&hspi2, &CMD, &ret, 1, 1000);     
@@ -156,38 +153,19 @@ uint16_t  MS5611_cmd_prom(uint8_t coef_num)
   //   spi_send(0x00);                          // send 0 to read the LSB 
   //    ret=SPI1BUF;       
   rC=rC+ret;       
-  SS1_SetHigh;                                   //       pull       CSB       high       
+  MS5611_SS_Set(SensNumb,1);                              //       pull       CSB       high       
   return       rC; 
 }
 
-void ms5611_calculate(int32_t *pressure, int32_t *temperature)
-{
-  uint32_t press;
-  int64_t temp;
-  int64_t delt;
-  int64_t dT = (int64_t)ms5611_ut - ((uint64_t)ms5611_c[5] * 256);
-  int64_t off = ((int64_t)ms5611_c[2] << 16) + (((int64_t)ms5611_c[4] * dT) >> 7);
-  int64_t sens = ((int64_t)ms5611_c[1] << 15) + (((int64_t)ms5611_c[3] * dT) >> 8);
-  temp = 2000 + ((dT * (int64_t)ms5611_c[6]) >> 23);
-  
-  if (temp < 2000) { // temperature lower than 20degC
-    delt = temp - 2000;
-    delt = 5 * delt * delt;
-    off -= delt >> 1;
-    sens -= delt >> 2;
-    if (temp < -1500) { // temperature lower than -15degC
-      delt = temp + 1500;
-      delt = delt * delt;
-      off -= 7 * delt;
-      sens -= (11 * delt) >> 1;
-    }
-    temp -= ((dT * dT) >> 31);
+void MS5611_SS_Set(uint8_t SensNumb,uint8_t LogLev){
+  if ( SensNumb == 1 ){ 
+    if(!LogLev)  SS1_SetLow;
+    else SS1_SetHigh;
   }
-  press = ((((int64_t)ms5611_up * sens) >> 21) - off) >> 15;
-  
-  
-  if (pressure)
-    *pressure = press;
-  if (temperature)
-    *temperature = temp;
+  if ( SensNumb == 2 ) {
+      if(!LogLev)  
+        SS2_SetLow;
+       else 
+         SS2_SetHigh;
+  }
 }

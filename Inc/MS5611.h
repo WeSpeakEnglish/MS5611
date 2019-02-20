@@ -3,18 +3,21 @@
 
 #include <stdint.h>
 
-void MS5611_init(void);
-uint16_t ms5611_prom(uint8_t coef_num);
-uint16_t MS5611_cmd_prom(uint8_t coef_num);
-void ms5611_calculate(int32_t *pressure, int32_t *temperature);
+void MS5611_init(uint8_t SensNumb);  // init the sensor
+
+uint16_t MS5611_cmd_prom(uint8_t SensNumb,uint8_t coef_num); //take coeffs from the sensor
 uint8_t MS5611_crc4(uint16_t n_prom[]);
-uint32_t MS5611_cmd_adc(uint8_t cmd);
+void MS5611_Calculate(double * T, double * P, uint16_t * C, uint32_t D1, uint32_t D2);
+void MS5611_SS_Set(uint8_t SensNumb, uint8_t LogLev); // Chip Select
+uint32_t MS5611_cmd_adc(uint8_t SensNumb, uint8_t cmd);
 
 extern uint8_t SPI2_Buffer_Rx[32];
 
 
-#define MS5611_CS_PIN GPIO_PIN_12
-#define MS5611_CS_PORT GPIOB
+#define MS5611_CS1_PIN GPIO_PIN_12
+#define MS5611_CS1_PORT GPIOB
+#define MS5611_CS2_PIN GPIO_PIN_10
+#define MS5611_CS2_PORT GPIOB
 
 #define CMD_RESET 0x1E // ADC reset command
 #define CMD_ADC_READ 0x00 // ADC read command
