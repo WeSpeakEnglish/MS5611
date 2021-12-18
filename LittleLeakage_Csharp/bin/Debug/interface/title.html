@@ -1,0 +1,407 @@
+<!DOCTYPE HTML> <!-- HTML5 like header -->
+<html>
+<head>
+<title>Barocamera interface by (c)Pinus</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<style type="text/css">
+<!--
+
+.styleRoom{
+ text-align: center;
+ color:#00AA00;
+ font-family: Arial;
+ font-weight:900;
+ font-size: 16pt;
+ border-width: 0px;
+ background: transparent;
+  } 
+ .styleLeft{
+ text-align: center;
+ color:#0000AA;
+ font-family: Arial;
+ font-weight:900;
+ font-size: 16pt;
+ border-width: 0px;
+ background: transparent;
+  } 
+.styleRight{
+ text-align: center;
+ color:#AA0000;
+ font-family: Arial;
+ font-weight:900;
+ font-size: 16pt;
+ border-width: 0px;
+ background: transparent;
+  }   
+ .headset {
+  position: absolute;
+  left: 100px;
+  top: 0px;
+  z-index: -1;
+}
+ .calibrate {
+  cursor: pointer;
+  position: absolute;
+  left: 450px;
+  top: 0px;
+}
+ .room {
+  position: absolute;
+  left: 220px;
+  top: 10px;
+  z-index: 0;
+}
+
+.com_port{
+  position: absolute;
+  left: 70px;
+  top: 350px;
+
+}
+
+.array_data{
+  position: absolute;
+  left: 70px;
+  top: 465px;
+
+}
+
+#placeholder { width: 500px; height: 300px; }
+
+.yaxisLabel {
+	color: rgba(0, 255, 255, 0.3);
+}
+.block2 { 
+    padding: 5px; 
+    float: left; 
+    position: relative; 
+    top: 30px; 
+    left: 30px; 
+	font-family: Verdana, Arial, sans-serif; 
+	font-size: 11px; 
+   }
+-->
+</style>
+
+<script>
+
+//////
+var Hours = 0;
+var Minutes = 0;
+var Seconds = 0;
+var Days = 1;
+var Months  = 1;
+var Years = 2019;
+
+var CommunicateCOMcondition=0;
+
+var P_Calib = new Array();
+P_Calib[0] = 0.0;
+P_Calib[1] = 0.0;
+P_Calib[2] = 0.0;
+P_Calib[3] = 0.0;
+P_Calib[4] = 0.0;
+P_Calib[5] = 0.0;
+var CalibrateFlag = 0;
+//-- Load images
+
+//manipulating images
+function ChangeImages(imja,kartinka){
+if (document.images){ //document.images[imja].src= eval(kartinka+'.src');
+             imja.src= eval(kartinka+'.src');
+}  
+   }		
+//---------------------------------------------------		
+function WritePorts(core){
+	window.document.all.CommExit.value=core;
+};
+
+function matrixArray(rows,columns){
+  var arr = new Array();
+  for(var i=0; i<rows; i++){
+    arr[i] = new Array();
+    for(var j=0; j<columns; j++){
+      arr[i][j] = i+j+1;//
+    }
+  }
+  return arr;
+}
+
+var Middle_P1_Arr = matrixArray(7,10);
+var Middle_T1_Arr = matrixArray(7,10);
+var Middle_Ind1 = 0;
+var Filled_A1 = false;
+var IndArray = 0;
+
+function GetMiddleP1(Sensor, Pressure){
+var PressMid = 0;
+
+Middle_P1_Arr[Sensor][Middle_Ind1] = Pressure;
+
+if (Middle_Ind1 == 10)Filled_A1 = true;
+Middle_Ind1 = Middle_Ind1 % 10;
+
+
+ if(Filled_A1 != true){
+  for(i = 0 ; i < Middle_Ind1; i++) PressMid += Middle_P1_Arr[Sensor][i];
+  
+  return PressMid/Middle_Ind1;
+   
+ }
+ else{
+  for(i = 0 ; i < 10; i++) PressMid += Middle_P1_Arr[Sensor][i];
+  }
+  return PressMid/10;
+  
+}
+
+var Pressure;
+
+function SetValuesToHTML(Temp_Room, Pressure_Room, Temp_L, Pressure_L, Temp_R, Pressure_R, VoltageResistance, CurrentResistance, ErrorCode, Condition){ // set Values To the Form
+
+
+
+Pressure_Room = GetMiddleP1(0,Pressure_Room);
+
+Pressure = Pressure_Room;
+
+
+
+
+Middle_Ind1++;
+
+
+ window.document.all['temperature'].innerHTML = (Temp_Room/100.0).toFixed(2) + "°C";
+ window.document.all['pressure'].innerHTML = (Pressure_Room/1000.0).toFixed(2)+ "hPa" ;
+ 
+ 
+ 
+ }
+ 
+ function CreateCOMportsList (DisplayList) 
+ {
+
+ window.document.all['selectCOM'].innerHTML = "<select id=selectCOMis size=1><option value=0 selected style='background-color:#fcc;'>Select a COM - port</option>"+DisplayList+"</select>";
+ }
+ 
+function CommunicateToCOM () 
+ {
+ var IndexSelected= window.document.all.selectCOMis.selectedIndex;
+ if(IndexSelected==0){
+    alert("Select a COM port!");
+	}
+ else{	
+    
+    if (CommunicateCOMcondition==0){ 
+          window.document.all['ConnectButton'].innerHTML = '<img src="../interface/images/disconnect.png">';
+		  CommunicateCOMcondition = 1;
+		  window.external.ConnectToCom(window.document.all.selectCOMis.options[IndexSelected].value,1);
+       }
+	else{
+	      window.document.all['ConnectButton'].innerHTML = '<img src="../interface/images/connect.png">';
+		  CommunicateCOMcondition = 0;
+		  window.external.ConnectToCom(window.document.all.selectCOMis.options[IndexSelected].value,0);
+		  setOutTimer();
+	} 
+   }	
+ }
+ function SendParams(ParamsType){ //what params (like delays, currents, and voltages we have to translate)
+// var Delay1=0;
+// var Delay2=0;
+  switch(ParamsType){
+	case 2:
+	window.external.SendSettings(3,(Delay1_Result*25.0).toFixed(0).toString(),(Delay2_Result*25.0).toFixed(0).toString());
+		break;
+	case 3:
+	window.external.SendSettings(3,(Delay1_Result*25.0).toFixed(0).toString(),(Delay2_Result*25.0).toFixed(0).toString());
+		break;
+	case 4:
+	window.external.SendSettings(3,(OutVoltageSetup).toFixed(0).toString(),(OutVoltageTreshold).toFixed(0).toString());
+		break;	
+	case 5:
+	window.external.SendSettings(3,(OutCurrentLimit).toFixed(0).toString(),(OutCurrentTreshold).toFixed(0).toString());
+		break;	
+	case 6:
+	window.external.SendSettings(3,(Days*2048 + Hours*64 + Minutes).toFixed(0).toString(),((Years-2000)*1024 + Months*64 + Seconds).toFixed(0).toString());
+		break;	
+	case 7:
+	window.external.SendSettings(3,(Days*2048 + Hours*64 + Minutes).toFixed(0).toString(),((Years-2000)*1024 + Months*64 + Seconds).toFixed(0).toString());
+		break;
+  }
+ 
+ }
+ 
+
+ 
+ function SetRealTime(){
+ var NowDate = new Date(); //new date
+ Hours = NowDate.getHours();
+ Days =  NowDate.getDate();
+ Minutes = NowDate.getMinutes();
+ Seconds = NowDate.getSeconds();
+ Years = NowDate.getFullYear();
+ Months = NowDate.getMonth()+1;
+ //Days = NowDate.getDays();
+ //Seconds = NowDate.getSeconds();
+ 
+ window.document.all.HoursSet.value	=	Hours;
+ window.document.all.MinutesSet.value	= Minutes;
+ window.document.all.SecondsSet.value	=	Seconds;
+ window.document.all.DaysSet.value	= Days;
+ window.document.all.MonthsSet.value	= Months;
+ window.document.all.YearsSet.value	=	Years;
+ //window.document.all.DaysSet.value	= Days;
+ return;
+ }
+ 
+</script>
+<!--[if lte IE 8]><script type='text/javascript' language='javascript' src='excanvas.min.js'></script><![endif]-->
+<script type='text/javascript' language='javascript' src='jquery-1.11.3.min.js'></script>
+<script type='text/javascript' language='javascript' src='jquery.flot.min.js'></script>
+<script language='javascript' type='text/javascript' src='jquery.flot.time.js'></script>
+<script type='text/javascript'>
+var d1 = [];
+
+var plot;
+$(document).ready(function () {
+    plot = $.plot($('#placeholder'), [
+	{ data: d1, label: 'Pressure, hPA' }
+
+	  ],{
+		//	xaxis: [{
+         //   mode: 'time',
+		//	position: 'bottom';
+		//	 minTickSize: [1, 'hour'],
+          //  minTickSize: [10, 'min'],
+          //  tickSize: [60, 'min'],
+           // timeformat: '%H:%M',
+         //   tickLength: 0,
+         //   reserveSpace: true,
+         //   axisLabel: 'Время',
+         //   axisLabelUseCanvas: true,
+         //   axisLabelFontSizePixels: 12,
+         //   axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
+         //   axisLabelPadding: 50
+		 xaxes: [ { mode: 'time' , 
+					timeformat: '%M:%S',
+					 timezone: 'browser'
+					} ],
+        
+		yaxes: [ {position: 'left'}, {
+					// align if we are to the right
+					alignTicksWithAxis: null,
+					position: 'rigth'
+				} , {position: 'right'}],
+				legend: { position: 'sw' }
+})});
+
+</script>
+<script>
+var Started = 0;
+var allData;
+
+function updateData(){
+
+Pressure = GetMiddleP1(0,Pressure);
+var OrigPressire = Pressure/1000.0;
+ if(! isNaN(OrigPressire) ){
+ allData = plot.getData(); // allData is an array of series objects
+ allData[0].data.push([IndArray * 1000, OrigPressire.toFixed(3)]);
+ plot.setData(allData);
+ plot.setupGrid();  // if axis have changed
+ plot.draw();
+ 
+ var StrToPrint = "";
+ 
+for (var i = 0; i < allData[0].data.length; i++){
+ StrToPrint += (allData[0].data[i][0]/1000).toString() +","+ allData[0].data[i][1].toString() + "\n";
+ 
+}
+ window.document.all['array_data_out'].value = StrToPrint;
+IndArray ++;
+}
+}
+ function setOutTimer(){
+ if(!Started){
+ timerFunc1 = window.setInterval("updateData();", 1000);
+
+ }
+ Started = true;
+ }
+ 
+ function setOutTimer(){
+ 
+ if(!Started && CommunicateCOMcondition){
+ timerFunc1 = window.setInterval("updateData();", 1000);
+ Started = true;
+ window.document.all['startRecButton'].innerHTML = "Stop Record data";
+ }
+ else {
+ if (Started){
+  window.clearInterval(timerFunc1);
+  Started = false;
+  window.document.all['startRecButton'].innerHTML = "Start Record data";
+  }
+ }
+  
+ } 
+ 
+function stopClock(){ 
+
+} 
+
+function EraseData(){
+ IndArray = 0;
+
+ allData[0].data = [];
+ window.document.all['array_data_out'].value = "";
+ plot.setData(allData);
+ plot.setupGrid();  // if axis have changed
+ plot.draw();
+}
+
+</script>
+</head>
+
+<body bgcolor="#EEEEFF" >
+
+<table align = "center" border = "0" cellspacing="0" cellpadding = "0" class="room">
+	<tr>
+		<td align = "center" width = "120" bgcolor="#EEEEAA" > Press. & Temp.:</td>
+	</tr>
+	<tr>
+		<td align = "center" width = "120" bgcolor="#FFFFCC"><span class = "styleRoom" type = "text" id = "temperature"></span></td>
+	</tr>	
+	<tr>
+		<td align = "center" width = "120" bgcolor="#FFFFCC"><span class = "styleRoom" type = "text" id = "pressure"></span></td>
+	</tr>	
+</table>	
+<div id='placeholder' align ='center' class='block2'></div>
+
+
+<TEXTAREA type="text" cols="50" rows="5" id="array_data_out" value="" class ="array_data"></TEXTAREA>
+
+
+<div class="com_port"> 
+<TEXTAREA type="text" cols="50" rows="3" name="CommExit" value="123" ></TEXTAREA><br/>
+         <table border="0">
+			<tr>
+				<td>
+		<span id="selectCOM" valign = "top">&nbsp;</span><br/>
+		        </td>
+				<td valign="center">
+		<span onClick="CommunicateToCOM();" id="ConnectButton"><img src="../interface/images/connect.png"/></span>
+		
+		        </td>
+			</tr>
+			<tr>
+			<td colspan="2">
+			<button onClick="javascript:setOutTimer();" id = "startRecButton">Start Record data</button>
+			<button onClick="javascript:EraseData();" id = "EraseData">Erase Data</button>
+			<button onClick="javascript:window.external.SaveToCSV(window.document.all['array_data_out'].value,0);" id = "SaveFileCSV">Save to CSV file</button>
+			</td>
+			</tr>
+		 </table>		  
+</div> 
+</body>
+</html>

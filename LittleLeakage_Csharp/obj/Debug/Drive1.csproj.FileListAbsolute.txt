@@ -1,0 +1,7 @@
+C:\PROJECTS\INVERTOR\Drive1\bin\Debug\Drive1.exe
+C:\PROJECTS\INVERTOR\Drive1\bin\Debug\Drive1.pdb
+C:\PROJECTS\INVERTOR\Drive1\obj\Debug\ResolveAssemblyReference.cache
+C:\PROJECTS\INVERTOR\Drive1\obj\Debug\Drive1.MainForm.resources
+C:\PROJECTS\INVERTOR\Drive1\obj\Debug\Drive1.csproj.GenerateResource.Cache
+C:\PROJECTS\INVERTOR\Drive1\obj\Debug\Drive1.exe
+C:\PROJECTS\INVERTOR\Drive1\obj\Debug\Drive1.pdb

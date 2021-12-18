@@ -1,0 +1,7 @@
+F:\PROJECTS\Windows\С#\Drive1\Drive1\Drive1\bin\Debug\Drive1.exe
+F:\PROJECTS\Windows\С#\Drive1\Drive1\Drive1\bin\Debug\Drive1.pdb
+F:\PROJECTS\Windows\С#\Drive1\Drive1\Drive1\obj\x86\Debug\ResolveAssemblyReference.cache
+F:\PROJECTS\Windows\С#\Drive1\Drive1\Drive1\obj\x86\Debug\Drive1.exe
+F:\PROJECTS\Windows\С#\Drive1\Drive1\Drive1\obj\x86\Debug\Drive1.pdb
+F:\PROJECTS\Windows\С#\Drive1\Drive1\Drive1\obj\x86\Debug\Drive1.csproj.GenerateResource.Cache
+F:\PROJECTS\Windows\С#\Drive1\Drive1\Drive1\obj\x86\Debug\Drive1.MainForm.resources

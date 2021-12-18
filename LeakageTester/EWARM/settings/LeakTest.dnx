@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<settings>
+    <Stack>
+        <FillEnabled>0</FillEnabled>
+        <OverflowWarningsEnabled>1</OverflowWarningsEnabled>
+        <WarningThreshold>90</WarningThreshold>
+        <SpWarningsEnabled>1</SpWarningsEnabled>
+        <WarnLogOnly>1</WarnLogOnly>
+        <UseTrigger>1</UseTrigger>
+        <TriggerName>main</TriggerName>
+        <LimitSize>0</LimitSize>
+        <ByteLimit>50</ByteLimit>
+    </Stack>
+    <StLinkDriver>
+        <stlinkserialNo>35FF6E064D53373240212543</stlinkserialNo>
+        <stlinkfoundProbes />
+        <stlinkResetStyle>0</stlinkResetStyle>
+        <stlinkResetStrategy>2</stlinkResetStrategy>
+        <CStepIntDis>_ 0</CStepIntDis>
+        <LeaveTargetRunning>_ 0</LeaveTargetRunning>
+    </StLinkDriver>
+    <DebugChecksum>
+        <Checksum>140349193</Checksum>
+    </DebugChecksum>
+    <Exceptions>
+        <StopOnUncaught>_ 0</StopOnUncaught>
+        <StopOnThrow>_ 0</StopOnThrow>
+    </Exceptions>
+    <CodeCoverage>
+        <Enabled>0</Enabled>
+        <ShowSource>0</ShowSource>
+        <HideCovered>0</HideCovered>
+    </CodeCoverage>
+    <Disassembly>
+        <MixedMode>1</MixedMode>
+        <InstrCount>0</InstrCount>
+    </Disassembly>
+    <CallStack>
+        <ShowArgs>0</ShowArgs>
+    </CallStack>
+    <SWOTraceHWSettings>
+        <OverrideDefaultClocks>0</OverrideDefaultClocks>
+        <CpuClock>24000000</CpuClock>
+        <ClockAutoDetect>0</ClockAutoDetect>
+        <ClockWanted>500000</ClockWanted>
+        <JtagSpeed>500000</JtagSpeed>
+        <Prescaler>48</Prescaler>
+        <TimeStampPrescIndex>0</TimeStampPrescIndex>
+        <TimeStampPrescData>0</TimeStampPrescData>
+        <PcSampCYCTAP>1</PcSampCYCTAP>
+        <PcSampPOSTCNT>15</PcSampPOSTCNT>
+        <PcSampIndex>0</PcSampIndex>
+        <DataLogMode>0</DataLogMode>
+        <ITMportsEnable>0</ITMportsEnable>
+        <ITMportsTermIO>0</ITMportsTermIO>
+        <ITMportsLogFile>0</ITMportsLogFile>
+        <ITMlogFile>$PROJ_DIR$\ITM.log</ITMlogFile>
+    </SWOTraceHWSettings>
+    <array_types>
+        <Fmt0>uint16_t[8]	4	0</Fmt0>
+        <Fmt1>uint8_t[32]	3	0</Fmt1>
+    </array_types>
+    <watch_formats>
+        <Fmt0>{W}42:C	4	4</Fmt0>
+    </watch_formats>
+    <Trace2>
+        <Enabled>0</Enabled>
+        <ShowSource>0</ShowSource>
+    </Trace2>
+    <SWOTraceWindow>
+        <PcSampling>0</PcSampling>
+        <InterruptLogs>0</InterruptLogs>
+        <ForcedTimeStamps>0</ForcedTimeStamps>
+        <EventCPI>0</EventCPI>
+        <EventEXC>0</EventEXC>
+        <EventFOLD>0</EventFOLD>
+        <EventLSU>0</EventLSU>
+        <EventSLEEP>0</EventSLEEP>
+    </SWOTraceWindow>
+    <DataLog>
+        <LogEnabled>0</LogEnabled>
+        <GraphEnabled>0</GraphEnabled>
+        <ShowTimeLog>1</ShowTimeLog>
+        <SumEnabled>0</SumEnabled>
+        <ShowTimeSum>1</ShowTimeSum>
+    </DataLog>
+    <InterruptLog>
+        <LogEnabled>0</LogEnabled>
+        <GraphEnabled>0</GraphEnabled>
+        <ShowTimeLog>1</ShowTimeLog>
+        <SumEnabled>0</SumEnabled>
+        <ShowTimeSum>1</ShowTimeSum>
+        <SumSortOrder>0</SumSortOrder>
+    </InterruptLog>
+    <EventLog>
+        <Title_0>Ch3</Title_0>
+        <Symbol_0>0 0 1</Symbol_0>
+        <Title_1>Ch2</Title_1>
+        <Symbol_1>0 0 1</Symbol_1>
+        <Title_2>Ch1</Title_2>
+        <Symbol_2>0 0 1</Symbol_2>
+        <Title_3>Ch0</Title_3>
+        <Symbol_3>0 0 1</Symbol_3>
+        <LogEnabled>0</LogEnabled>
+        <GraphEnabled>0</GraphEnabled>
+        <ShowTimeLog>1</ShowTimeLog>
+        <SumEnabled>0</SumEnabled>
+        <ShowTimeSum>1</ShowTimeSum>
+        <SumSortOrder>0</SumSortOrder>
+    </EventLog>
+    <TermIOLog>
+        <LoggingEnabled>_ 0</LoggingEnabled>
+        <LogFile>_ ""</LogFile>
+    </TermIOLog>
+    <DriverProfiling>
+        <Enabled>0</Enabled>
+        <Mode>3</Mode>
+        <Graph>0</Graph>
+        <Symbiont>0</Symbiont>
+        <Exclusions />
+    </DriverProfiling>
+    <CallStackLog>
+        <Enabled>0</Enabled>
+    </CallStackLog>
+    <CallStackStripe>
+        <ShowTiming>1</ShowTiming>
+    </CallStackStripe>
+    <LogFile>
+        <LoggingEnabled>_ 0</LoggingEnabled>
+        <LogFile>_ ""</LogFile>
+        <Category2>_ 0</Category2>
+    </LogFile>
+    <DisassembleMode>
+        <mode>0</mode>
+    </DisassembleMode>
+    <Breakpoints2>
+        <Bp0>_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Src\MS5611.c}.32.1" 0 0 1 "" 0 "" 0</Bp0>
+        <Bp1>_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\spi.c}.70.5" 0 0 1 "" 0 "" 0</Bp1>
+        <Count>2</Count>
+    </Breakpoints2>
+    <Aliases>
+        <A0>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\CMSIS\Include\core_cm3.h" ""</A0>
+        <A1>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_ll_bus.h" ""</A1>
+        <A2>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_ll_cortex.h" ""</A2>
+        <A3>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_ll_pwr.h" ""</A3>
+        <A4>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_ll_rcc.h" ""</A4>
+        <A5>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Inc\stm32f1xx_ll_rtc.h" ""</A5>
+        <A6>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal.c" ""</A6>
+        <A7>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_cortex.c" ""</A7>
+        <A8>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_dma.c" ""</A8>
+        <A9>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_gpio.c" ""</A9>
+        <A10>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_rcc.c" ""</A10>
+        <A11>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_rcc_ex.c" ""</A11>
+        <A12>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_spi.c" ""</A12>
+        <A13>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_spi_ex.c" ""</A13>
+        <A14>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_uart.c" ""</A14>
+        <A15>_ "C:\PROJECTS\LeakageTester\LeakTest\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_ll_rtc.c" ""</A15>
+        <A16>_ "C:\PROJECTS\LeakageTester\LeakTest\EWARM\startup_stm32f100xb.s" ""</A16>
+        <A17>_ "C:\PROJECTS\LeakageTester\LeakTest\Src\MS5611.c" ""</A17>
+        <A18>_ "C:\PROJECTS\LeakageTester\LeakTest\Src\dma.c" ""</A18>
+        <A19>_ "C:\PROJECTS\LeakageTester\LeakTest\Src\gpio.c" ""</A19>
+        <A20>_ "C:\PROJECTS\LeakageTester\LeakTest\Src\main.c" ""</A20>
+        <A21>_ "C:\PROJECTS\LeakageTester\LeakTest\Src\rtc.c" ""</A21>
+        <A22>_ "C:\PROJECTS\LeakageTester\LeakTest\Src\spi.c" ""</A22>
+        <A23>_ "C:\PROJECTS\LeakageTester\LeakTest\Src\stm32f1xx_hal_msp.c" ""</A23>
+        <A24>_ "C:\PROJECTS\LeakageTester\LeakTest\Src\stm32f1xx_it.c" ""</A24>
+        <A25>_ "C:\PROJECTS\LeakageTester\LeakTest\Src\system_stm32f1xx.c" ""</A25>
+        <A26>_ "C:\PROJECTS\LeakageTester\LeakTest\Src\usart.c" ""</A26>
+        <Count>27</Count>
+        <SuppressDialog>0</SuppressDialog>
+    </Aliases>
+    <PlDriver>
+        <MemConfigValue>C:\Program Files\IAR Systems\Embedded Workbench 9.0\arm\CONFIG\debugger\ST\STM32F100C8.ddf</MemConfigValue>
+    </PlDriver>
+    <ArmDriver>
+        <EnableCache>0</EnableCache>
+        <EnforceMemoryConfiguration>1</EnforceMemoryConfiguration>
+    </ArmDriver>
+</settings>
